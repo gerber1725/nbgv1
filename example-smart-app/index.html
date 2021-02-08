@@ -85,8 +85,10 @@
     <script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>
-      FHIR.oauth2.ready(client => client.request(`Patient/${client.patient.id}`));
-      return ret.promise();
+      FHIR.oauth2.ready()
+        .then(client => client.request("Patient"))
+        .then(console.log)
+        .catch(console.error);
     </script>
   </body>
 </html>
