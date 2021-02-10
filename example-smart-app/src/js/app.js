@@ -7,6 +7,8 @@ function createRenderer(id) {
     output.innerText = data && typeof data === "object"
       ? JSON.stringify(data, null, 4)
       : String(data);
+      $('#loading').hide();
+      alert(JSON.stringify(data, null, 4);
   };
 }
 
