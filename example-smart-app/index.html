@@ -55,7 +55,6 @@
                     function(error) {
                         document.getElementById("patient").innerText = error.stack;
                     }
-		    $('#loading').hide();
                 );
                
                 // Get MedicationRequests for the selected patient
@@ -86,6 +85,7 @@
 
 
             }).catch(console.error);
+      $('#loading').hide();
     </script>
   </body>
 </html>
