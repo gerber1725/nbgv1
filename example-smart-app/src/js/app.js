@@ -1,14 +1,15 @@
 
 // Our app is written in ES3 so that it works in older browsers!
 
-function createRenderer(id) {
+function createRenderer(id,id2) {
   const output = id ? document.getElementById(id) : document.body;
+  const holder = id ? document.getElementById(id2) : document.body;
   return function(data) {
     output.innerText = data && typeof data === "object"
       ? JSON.stringify(data, null, 4)
       : String(data);
       $('#loading').hide();
-      alert(JSON.stringify(data, null, 4);
+      holder.innterText = JSON.stringify(data, null, 4);
   };
 }
 
