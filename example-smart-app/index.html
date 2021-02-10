@@ -54,10 +54,10 @@
 	  
 	  FHIR.oauth2.ready()
 	    // Get MedicationRequests for the selected patient
-	    alert(client.patient.id);
             .then(client => client.request("/MedicationRequest?patient=" + client.patient.id, {
           resolveReferences: [ "medicationReference" ],
           graph: true
+          alert(client.patient.id)
         }))
           
         // Reject if no MedicationRequests are found
