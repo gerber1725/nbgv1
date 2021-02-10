@@ -23,6 +23,8 @@
       <h4>Patient Medications</h4>
       <pre id="output">Loading...</pre>
     </div>
+    <div id='patient'></div>
+    <div id='meds'></div>
     <!-- Required JS files to enable this page to embed within an MPage -->
     <!--
       Temporarily disable cerner-smart-embeddable-lib
@@ -43,46 +45,47 @@
     <script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>
-      var render = createRenderer("output","holder");
+      FHIR.oauth2.ready().then(function(client) {
+               
+                // Render the current patient (or any error)
+                client.patient.read().then(
+                    function(pt) {
+                        document.getElementById("patient").innerText = JSON.stringify(pt, null, 4);
+                    },
+                    function(error) {
+                        document.getElementById("patient").innerText = error.stack;
+                    }
+		    $('#loading').hide();
+                );
+               
+                // Get MedicationRequests for the selected patient
+                client.request("/MedicationRequest?patient=" + client.patient.id, {
+                    resolveReferences: [ "medicationReference" ],
+                    graph: true
+                })
+               
+                // Reject if no MedicationRequests are found
+                .then(function(data) {
+                    if (!data.entry || !data.entry.length) {
+                        throw new Error("No medications found for the selected patient");
+                    }
+                    return data.entry;
+                })
+               
 
-      function getMedicationName(medCodings) {
-        var coding = medCodings.find(function(c){
-          return c.system == "http://www.nlm.nih.gov/research/umls/rxnorm";
-        });
-        return coding && coding.display || "Unnamed Medication(TM)";
-      }
-	  
-	  FHIR.oauth2.ready()
-	    // Get MedicationRequests for the selected patient
-            .then(client => client.request("/MedicationRequest?patient=" + client.patient.id, {
-          resolveReferences: [ "medicationReference" ],
-          graph: true
-          alert(client.patient.id)
-        }))
-          
-        // Reject if no MedicationRequests are found
-        .then(function(data) {
-          if (!data.entry || !data.entry.length) {
-            throw new Error("No medications found for the selected patient");
-          }
-          return data.entry;
-        })
-        
-        // Build an array of medication names
-        .then(function(entries) {
-          return entries.map(function(item) {
-            return getMedicationName(
-              client.getPath(item, "resource.medicationCodeableConcept.coding") ||
-              client.getPath(item, "resource.medicationReference.code.coding")
-            );
-          });
-        })
 
-        // Render the list
-        .then(render)
-		
-		// Render any errors
-        .catch(render);
+                // Render the current patient's medications (or any error)
+                .then(
+                    function(meds) {
+                        document.getElementById("meds").innerText = JSON.stringify(meds, null, 4);
+                    },
+                    function(error) {
+                        document.getElementById("meds").innerText = error.stack;
+                    }
+                );
+
+
+            }).catch(console.error);
     </script>
   </body>
 </html>
