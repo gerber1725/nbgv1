@@ -61,7 +61,8 @@
                     function(pt) {
                         document.getElementById("patientj").innerText = JSON.stringify(pt, null, 4);
 			//document.getElementById("patient").innerText = "Patient json size: " + pt.length;
-			document.getElementById("patient").innerText = JSON.parse(pt.text.div);
+			pt_str = pt_str.slice(1,-1);
+			document.getElementById("patient").innerText = pt_str;
                     },
                     function(error) {
                         document.getElementById("patient").innerText = error.stack;
