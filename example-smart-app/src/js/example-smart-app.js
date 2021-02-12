@@ -129,3 +129,7 @@
   };
 
 })(window);
+
+function showhide(d) {
+    d.style.display = (d.style.display !== "none") ? "none" : "block";
+};
