@@ -61,7 +61,7 @@
                     function(pt) {
                         document.getElementById("patientj").innerText = JSON.stringify(pt, null, 4);
 			//document.getElementById("patient").innerText = "Patient json size: " + pt.length;
-			document.getElementById("patient").innerText = pt.text.div;
+			document.getElementById("patient").innerText = pt.text.div.replace(/^"(.*)"$/, '$1');
                     },
                     function(error) {
                         document.getElementById("patient").innerText = error.stack;
