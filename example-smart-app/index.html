@@ -25,6 +25,12 @@
     <div id='docs'></div>
     <h4>Medication Information</h4>
     <div id='meds'></div>
+    <h4>Patient JSON</h4>
+    <div id='patientj'></div>
+    <h4>Document JSON</h4>
+    <div id='docsj'></div>
+    <h4>Medication JSON</h4>
+    <div id='medsj'></div>
     <!-- Required JS files to enable this page to embed within an MPage -->
     <!--
       Temporarily disable cerner-smart-embeddable-lib
@@ -50,7 +56,7 @@
                 // Render the current patient (or any error)
                 client.patient.read().then(
                     function(pt) {
-                        //document.getElementById("patient").innerText = JSON.stringify(pt, null, 4);
+                        document.getElementById("patientj").innerText = JSON.stringify(pt, null, 4);
 			document.getElementById("patient").innerText = "Patient json size: " + pt.length;
                     },
                     function(error) {
@@ -73,8 +79,8 @@
                 // Render the current patient's medications (or any error)
                 .then(
                     function(meds) {
-                        //document.getElementById("meds").innerText = JSON.stringify(meds, null, 4);
-			document.getElementById("medst").innerText = "Medication json size: " + meds.length;
+                        document.getElementById("medsj").innerText = JSON.stringify(meds, null, 4);
+			document.getElementById("meds").innerText = "Medication json size: " + meds.length;
                     },
                     function(error) {
                         document.getElementById("meds").innerText = error.stack;
@@ -93,7 +99,7 @@
                 // Render the current patient's documents (or any error)
                 .then(
                     function(docs) {
-                        //document.getElementById("docs").innerText = JSON.stringify(docs, null, 4);
+                        document.getElementById("docsj").innerText = JSON.stringify(docs, null, 4);
 			document.getElementById("docs").innerText = "Document json size: " + docs.length;
                     },
                     function(error) {
