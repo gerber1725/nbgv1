@@ -21,6 +21,8 @@
     <div id='holder'></div>
     <h4>Patient Information</h4>
     <div id='patient'></div>
+    <h4>Document Information</h4>
+    <div id='docs'></div>
     <h4>Medication Information</h4>
     <div id='meds'></div>
     <!-- Required JS files to enable this page to embed within an MPage -->
@@ -42,7 +44,7 @@
     <!-- https://github.com/cerner/fhir-client-cerner-additions -->
     <script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>
+<script>
       FHIR.oauth2.ready().then(function(client) {
                
                 // Render the current patient (or any error)
@@ -59,18 +61,14 @@
                 client.request("/MedicationRequest?patient=" + client.patient.id, {
                     resolveReferences: [ "medicationReference" ],
                     graph: true
-                })
-               
+                })               
                 // Reject if no MedicationRequests are found
                 .then(function(data) {
                     if (!data.entry || !data.entry.length) {
                         throw new Error("No medications found for the selected patient");
                     }
                     return data.entry;
-                })
-               
-
-
+                })              
                 // Render the current patient's medications (or any error)
                 .then(
                     function(meds) {
@@ -80,8 +78,25 @@
                         document.getElementById("meds").innerText = error.stack;
                     }
                 );
-
-
+				
+				        // Get DocumentReference for the selected patient
+                client.request("/DocumentReference?patient=" + client.patient.id)               
+                // Reject if no DocumentReference are found
+                .then(function(data) {
+                    if (!data.entry || !data.entry.length) {
+                        throw new Error("No documents found for the selected patient");
+                    }
+                    return data.entry;
+                })              
+                // Render the current patient's documents (or any error)
+                .then(
+                    function(docs) {
+                        document.getElementById("docs").innerText = JSON.stringify(docs, null, 4);
+                    },
+                    function(error) {
+                        document.getElementById("docs").innerText = error.stack;
+                    }
+                );
             }).catch(console.error);
       $('#loading').hide();
     </script>
