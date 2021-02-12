@@ -74,7 +74,7 @@
                 .then(
                     function(meds) {
                         //document.getElementById("meds").innerText = JSON.stringify(meds, null, 4);
-			document.getElementById("patient").innerText = "Medication json size: " + meds.length;
+			document.getElementById("medst").innerText = "Medication json size: " + meds.length;
                     },
                     function(error) {
                         document.getElementById("meds").innerText = error.stack;
@@ -94,7 +94,7 @@
                 .then(
                     function(docs) {
                         //document.getElementById("docs").innerText = JSON.stringify(docs, null, 4);
-			document.getElementById("patient").innerText = "Document json size: " + docs.length;
+			document.getElementById("docs").innerText = "Document json size: " + docs.length;
                     },
                     function(error) {
                         document.getElementById("docs").innerText = error.stack;
