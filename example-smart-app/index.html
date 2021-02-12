@@ -25,12 +25,15 @@
     <div id='docs'></div>
     <h4>Medication Information</h4>
     <div id='meds'></div>
+    <button id="button" onclick="showhide(patientjdiv)">Show/Hide Patient JSON</button>
+    <button id="button" onclick="showhide(docsjdiv)">Show/Hide Document JSON</button>
+    <button id="button" onclick="showhide(medsjdiv)">Show/Hide Meds JSON</button>
     <h4>Patient JSON</h4>
-    <div id='patientj'></div>
+    <div id='patientj' style="display:none;"></div>
     <h4>Document JSON</h4>
-    <div id='docsj'></div>
+    <div id='docsj' style="display:none;"></div>
     <h4>Medication JSON</h4>
-    <div id='medsj'></div>
+    <div id='medsj' style="display:none;"></div>
     <!-- Required JS files to enable this page to embed within an MPage -->
     <!--
       Temporarily disable cerner-smart-embeddable-lib
@@ -108,6 +111,9 @@
                 );
             }).catch(console.error);
       $('#loading').hide();
+      patientjdiv = document.getElementById("patientj");
+      docsjdiv = document.getElementById("docsj");
+      medsjdiv = document.getElementById("medsj");
     </script>
   </body>
 </html>
